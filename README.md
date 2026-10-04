@@ -39,9 +39,9 @@ pip install "fast-thumbhash[pillow]"
 from PIL import Image
 from fast_thumbhash import image_to_thumb_hash, thumb_hash_to_rgba
 
-thash = bytes(image_to_thumb_hash("example.jpg"))
+thash = image_to_thumb_hash("example.jpg")
 width, height, rgba = thumb_hash_to_rgba(thash)
-restored = Image.frombytes("RGBA", (width, height), bytes(rgba))
+restored = Image.frombytes("RGBA", (width, height), rgba)
 restored.save("restored.png")
 ```
 
