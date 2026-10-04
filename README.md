@@ -13,7 +13,7 @@ fast_thumbhash is 60.5x faster than the pure Python implementations I tested:
 0.46491601096931845 ms (fast-thumbhash - this package)
 ```
 
-`thumbhash-python` was also taking the same time range as `thumbhash` (27 - 35 ms).
+[`thumbhash-python`](https://github.com/Astropilot/thumbhash-python) was also taking the same time range as [`thumbhash`](https://github.com/justinforlenza/thumbhash-py) (27 - 35 ms).
 
 ## Features
 - Exposes `rgba_to_thumb_hash`, `thumb_hash_to_rgba`, `thumb_hash_to_average_rgba`, `thumb_hash_to_approximate_aspect_ratio`.
@@ -44,6 +44,11 @@ width, height, rgba = thumb_hash_to_rgba(thash)
 restored = Image.frombytes("RGBA", (width, height), rgba)
 restored.save("restored.png")
 ```
+
+## Other Python packages
+Pure-Python implementations of ThumbHash:
+- [`thumbhash`](https://github.com/justinforlenza/thumbhash-py) ([PyPI](https://pypi.org/project/thumbhash/))
+- [`thumbhash-python`](https://github.com/Astropilot/thumbhash-python) ([PyPI](https://pypi.org/project/thumbhash-python/))
 
 ## License
 MIT
