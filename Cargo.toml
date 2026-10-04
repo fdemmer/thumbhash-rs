@@ -1,15 +1,15 @@
 [package]
-name = "fast_thumbhash"
-version = "0.1.0"
+name = "thumbhash_rs"
+version = "0.1.0-alpha.1"
 edition = "2021"
 description = "Fast ThumbHash bindings for Python using Rust (PyO3)"
-documentation = "https://github.com/fdemmer/python_thumbhash#readme"
-homepage = "https://github.com/fdemmer/python_thumbhash"
-repository = "https://github.com/fdemmer/python_thumbhash"
+documentation = "https://github.com/fdemmer/thumbhash-rs#readme"
+homepage = "https://github.com/fdemmer/thumbhash-rs"
+repository = "https://github.com/fdemmer/thumbhash-rs"
 license = "MIT"
 
 [lib]
-name = "fast_thumbhash"
+name = "_thumbhash"
 crate-type = ["cdylib"]
 
 [dependencies]

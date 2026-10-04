@@ -40,7 +40,7 @@ def load(impl):
     """Return (encode, decode or None, rgba input in the form the library expects)."""
     rgba = make_rgba(WIDTH, HEIGHT)
     if impl == "fast":
-        from fast_thumbhash import rgba_to_thumb_hash, thumb_hash_to_rgba
+        from thumbhash import rgba_to_thumb_hash, thumb_hash_to_rgba
 
         return rgba_to_thumb_hash, thumb_hash_to_rgba, rgba
     if impl == "thumbhash":

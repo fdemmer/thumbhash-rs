@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-`fast_thumbhash` is a Python package with a Rust (PyO3) extension, built with maturin. It wraps the `thumbhash` crate.
+`thumbhash-rs` is a Python package (imported as `thumbhash`) with a Rust (PyO3) extension, built with maturin. It wraps the `thumbhash` crate.
 
 ## Layout
 - `src/lib.rs`: PyO3 module with four functions: `rgba_to_thumb_hash`, `thumb_hash_to_rgba`, `thumb_hash_to_average_rgba` and `thumb_hash_to_approximate_aspect_ratio`. They take and return `bytes`. `rgba_to_thumb_hash` validates its input and raises `ValueError`.
-- `fast_thumbhash/__init__.py`: re-exports the compiled module (`.fast_thumbhash`) and `.wrappers`.
-- `fast_thumbhash/wrappers.py`: `image_to_thumb_hash(fp)`, pure Python, needs the optional Pillow extra (imported lazily).
-- `fast_thumbhash/fast_thumbhash.pyi` and `py.typed`: hand-written type stub for the compiled module, and the PEP 561 marker.
+- `thumbhash/__init__.py`: re-exports the compiled module (`._thumbhash`) and `.wrappers`.
+- `thumbhash/wrappers.py`: `image_to_thumb_hash(fp)`, pure Python, needs the optional Pillow extra (imported lazily).
+- `thumbhash/_thumbhash.pyi` and `py.typed`: hand-written type stub for the compiled module, and the PEP 561 marker.
 - `tests/test_lib.py`: pytest tests for the extension and the README example.
 - `pyproject.toml`: maturin build backend with `python-source = "."`, the cibuildwheel config (cp39–cp314, no musllinux; wheels are tested with pytest) and the pyright config.
 - `.python-version`: Python 3.14, the newest version supported by the pinned `pyo3 0.29`.
@@ -22,7 +22,7 @@
 - `just test`: rebuild, then run pytest.
 - `just bench`: build a release wheel and benchmark encoding (vs `thumbhash`, `thumbhash-python`) and decoding (vs `thumbhash-python`) in `benchmarks/`, each in its own uv environment because both packages import as `thumbhash`.
 - `just check`: `cargo check` and clippy. Clippy currently fails on the redundant `use thumbhash;` in `src/lib.rs`.
-- `just typecheck`: pyright on `fast_thumbhash/`.
+- `just typecheck`: pyright on `thumbhash/`.
 - `just gha-update` / `just gha-check`: update and SHA-pin the GitHub Actions versions (`gha-update`), lint the workflows with zizmor.
 - `just wheel` / `just sdist`: build distributable artifacts into `dist/`.
 
@@ -34,4 +34,4 @@
 ## Notes
 - `cargo test` is not used. The `extension-module` feature breaks linking of Rust test binaries.
 - The Rust crate version (`Cargo.toml`) and the Python version (`pyproject.toml`) are tracked separately.
-- Ignored by git: `.venv/`, `target/`, the built `.so` in `fast_thumbhash/`, `uv.lock`, and image files in the repo root (`example.jpg`, `restored.png`).
+- Ignored by git: `.venv/`, `target/`, the built `.so` in `thumbhash/`, `uv.lock`, and image files in the repo root (`example.jpg`, `restored.png`).

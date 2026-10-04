@@ -34,7 +34,7 @@ test *args: build
 
 # Type-check the Python package
 typecheck:
-    uv run --no-project pyright fast_thumbhash
+    uv run --no-project pyright thumbhash
 
 # Benchmark encode and decode against thumbhash and thumbhash-python (release build)
 bench:

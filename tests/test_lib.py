@@ -1,6 +1,6 @@
 import pytest
 
-from fast_thumbhash import (
+from thumbhash import (
     image_to_thumb_hash,
     rgba_to_thumb_hash,
     thumb_hash_to_approximate_aspect_ratio,

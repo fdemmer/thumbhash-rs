@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .fast_thumbhash import rgba_to_thumb_hash
+from ._thumbhash import rgba_to_thumb_hash
 
 
 def image_to_thumb_hash(fp: str | bytes | Path) -> bytes:
@@ -13,7 +13,7 @@ def image_to_thumb_hash(fp: str | bytes | Path) -> bytes:
     orientation before encoding.
 
     Requires Pillow, install it with the ``pillow`` extra:
-    ``pip install "fast-thumbhash[pillow]"``.
+    ``pip install "thumbhash-rs[pillow]"``.
 
     :param fp: The path of the image file, or any argument accepted by
         :func:`PIL.Image.open`.

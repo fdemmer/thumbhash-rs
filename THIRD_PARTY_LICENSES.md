@@ -1,6 +1,6 @@
 # Third-party licenses
 
-Compiled wheels of fast_thumbhash statically link the Rust crates below.
+Compiled wheels of thumbhash-rs statically link the Rust crates below.
 
 ## thumbhash (MIT)
 

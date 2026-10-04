@@ -89,7 +89,7 @@ fn py_thumb_hash_to_approximate_aspect_ratio(py: Python, hash: &[u8]) -> PyResul
 ///
 /// See https://evanw.github.io/thumbhash/ for details on the ThumbHash format.
 #[pymodule]
-fn fast_thumbhash(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn _thumbhash(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_rgba_to_thumb_hash, m)?)?;
     m.add_function(wrap_pyfunction!(py_thumb_hash_to_rgba, m)?)?;
     m.add_function(wrap_pyfunction!(py_thumb_hash_to_average_rgba, m)?)?;
