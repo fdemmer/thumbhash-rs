@@ -1,5 +1,6 @@
 # thumbhash-rs
-[![Release](https://github.com/fdemmer/thumbhash-rs/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/fdemmer/thumbhash-rs/actions/workflows/release.yml)
+[![Test](https://github.com/fdemmer/thumbhash-rs/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/fdemmer/thumbhash-rs/actions/workflows/test.yml)
+[![PyPI](https://img.shields.io/pypi/v/thumbhash-rs.svg)](https://pypi.org/project/thumbhash-rs/)
 
 > [!WARNING]
 > This package is not related to [VectorPrivacy/fast-thumbhash](https://github.com/VectorPrivacy/fast-thumbhash), which is a different project. Don't confuse the two.
