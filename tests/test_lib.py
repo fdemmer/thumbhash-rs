@@ -73,3 +73,15 @@ def test_approximate_aspect_ratio(width, height):
 def test_invalid_hash_raises_value_error(func):
     with pytest.raises(ValueError, match="thumbhash"):
         func(b"\x00")
+
+
+@pytest.mark.parametrize(("width", "height"), [(101, 10), (10, 101), (200, 200)])
+def test_rgba_to_thumb_hash_rejects_too_large_image(width, height):
+    with pytest.raises(ValueError, match="at most 100"):
+        rgba_to_thumb_hash(width, height, solid_rgba(width, height, (0, 0, 0, 255)))
+
+
+@pytest.mark.parametrize("length", [0, 5, 4 * 10 * 10 - 1, 4 * 10 * 10 + 1])
+def test_rgba_to_thumb_hash_rejects_wrong_rgba_length(length):
+    with pytest.raises(ValueError, match="4 = 400 bytes"):
+        rgba_to_thumb_hash(10, 10, bytes(length))

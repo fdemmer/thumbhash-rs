@@ -1,6 +1,10 @@
+use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3::types::PyBytes;
 use thumbhash;
+
+/// Largest width and height supported by ThumbHash.
+const MAX_SIZE: usize = 100;
 
 #[pyfunction(name = "rgba_to_thumb_hash")]
 fn py_rgba_to_thumb_hash<'py>(
@@ -8,9 +12,22 @@ fn py_rgba_to_thumb_hash<'py>(
     width: usize,
     height: usize,
     rgba: &[u8],
-) -> Bound<'py, PyBytes> {
+) -> PyResult<Bound<'py, PyBytes>> {
+    // The thumbhash crate asserts on these, which would surface as a PanicException.
+    if width > MAX_SIZE || height > MAX_SIZE {
+        return Err(PyValueError::new_err(format!(
+            "width and height must be at most {MAX_SIZE}, got {width}x{height}"
+        )));
+    }
+    let expected = width * height * 4;
+    if rgba.len() != expected {
+        return Err(PyValueError::new_err(format!(
+            "rgba must be width * height * 4 = {expected} bytes long, got {}",
+            rgba.len()
+        )));
+    }
     let hash = py.allow_threads(|| thumbhash::rgba_to_thumb_hash(width, height, rgba));
-    PyBytes::new_bound(py, &hash)
+    Ok(PyBytes::new_bound(py, &hash))
 }
 
 #[pyfunction(name = "thumb_hash_to_rgba")]
