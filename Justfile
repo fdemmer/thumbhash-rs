@@ -36,6 +36,12 @@ test *args: build
 typecheck:
     uv run --no-project pyright fast_thumbhash
 
+# Benchmark encode and decode against thumbhash and thumbhash-python (release build)
+bench:
+    rm -rf target/bench-wheels
+    uv run --no-project maturin build --release --out target/bench-wheels
+    uv run --no-project python benchmarks/run.py
+
 # Rust checks
 check:
     cargo check

@@ -19,6 +19,7 @@
 - `just build` / `just build-release`: `maturin develop` into the venv.
 - `just shell`: rebuild, then open a Python shell with the package installed from source.
 - `just test`: rebuild, then run pytest.
+- `just bench`: build a release wheel and benchmark encoding (vs `thumbhash`, `thumbhash-python`) and decoding (vs `thumbhash-python`) in `benchmarks/`, each in its own uv environment because both packages import as `thumbhash`.
 - `just check`: `cargo check` and clippy. Clippy currently fails on the redundant `use thumbhash;` in `src/lib.rs`.
 - `just typecheck`: pyright on `fast_thumbhash/`.
 - `just wheel` / `just sdist`: build distributable artifacts into `dist/`.
