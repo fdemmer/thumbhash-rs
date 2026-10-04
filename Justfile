@@ -36,10 +36,8 @@ test *args: build
 typecheck:
     uv run --no-project pyright thumbhash
 
-# Benchmark encode and decode against thumbhash and thumbhash-python (release build)
+# Benchmark encode and decode of the PyPI releases of fast-thumbhash-rs, thumbhash-rs, thumbhash and thumbhash-python
 bench:
-    rm -rf target/bench-wheels
-    uv run --no-project maturin build --release --out target/bench-wheels
     uv run --no-project python benchmarks/run.py
 
 # Rust checks

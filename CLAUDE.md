@@ -20,7 +20,7 @@
 - `just build` / `just build-release`: `maturin develop` into the venv.
 - `just shell`: rebuild, then open a Python shell with the package installed from source.
 - `just test`: rebuild, then run pytest.
-- `just bench`: build a release wheel and benchmark encoding (vs `thumbhash`, `thumbhash-python`) and decoding (vs `thumbhash-python`) in `benchmarks/`, each in its own uv environment because both packages import as `thumbhash`.
+- `just bench`: benchmark the PyPI releases of `fast-thumbhash-rs` and `thumbhash-rs` (encoding and decoding) against `thumbhash` (encoding only) and `thumbhash-python` in `benchmarks/`, each in its own uv environment because all of them import as `thumbhash`.
 - `just check`: `cargo check` and clippy.
 - `just typecheck`: pyright on `thumbhash/`.
 - `just gha-update` / `just gha-check`: update and SHA-pin the GitHub Actions versions (`gha-update`), lint the workflows with zizmor.

@@ -1,10 +1,10 @@
 """Benchmark one implementation's encoder or decoder and print a JSON line.
 
-Usage: bench_one.py {fast,thumbhash,thumbhash-python} [encode|decode]
+Usage: bench_one.py {fast-thumbhash-rs,thumbhash-rs,thumbhash,thumbhash-python} [encode|decode]
 
 `thumbhash` has no decoder.
 
-`thumbhash` and `thumbhash-python` both import as `thumbhash`, so each
+`fast-thumbhash-rs`, `thumbhash-rs`, `thumbhash` and `thumbhash-python` all import as `thumbhash`, so each
 implementation must run in its own environment (see run.py).
 """
 
@@ -39,7 +39,7 @@ def make_rgba(width, height):
 def load(impl):
     """Return (encode, decode or None, rgba input in the form the library expects)."""
     rgba = make_rgba(WIDTH, HEIGHT)
-    if impl == "fast":
+    if impl in ("fast-thumbhash-rs", "thumbhash-rs"):
         from thumbhash import rgba_to_thumb_hash, thumb_hash_to_rgba
 
         return rgba_to_thumb_hash, thumb_hash_to_rgba, rgba

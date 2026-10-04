@@ -52,22 +52,24 @@ Each function has a docstring (`help(thumbhash.rgba_to_thumb_hash)`), also avail
 
 ## Benchmark
 
-Compared with the pure-Python packages [`thumbhash`](https://github.com/justinforlenza/thumbhash-py) (encoding only) and [`thumbhash-python`](https://github.com/Astropilot/thumbhash-python). Run it yourself with `just bench` (see `benchmarks/`). Output on an AMD Ryzen 7 5700X, Python 3.14, release build:
+Compared with [`thumbhash-rs`](https://pypi.org/project/thumbhash-rs/) (the original Rust bindings) and the pure-Python packages [`thumbhash`](https://github.com/justinforlenza/thumbhash-py) (encoding only) and [`thumbhash-python`](https://github.com/Astropilot/thumbhash-python). All packages are the releases from PyPI. Run it yourself with `just bench` (see `benchmarks/`). Output on an AMD Ryzen 7 5700X, Python 3.14, release build:
 
 ```
 rgba_to_thumb_hash, 100x100 RGBA image -> ThumbHash
 
 implementation                    median ms    min ms    runs   speedup
-fast-thumbhash-rs (this package)      0.030     0.029   33215
-thumbhash                            29.485    28.854      34    998.6x
-thumbhash-python                     29.776    29.288      33   1008.5x
+fast-thumbhash-rs                     0.034     0.034   28404          
+thumbhash-rs                          1.121     1.119     888     32.5x
+thumbhash                            28.888    28.259      33    837.9x
+thumbhash-python                     29.758    29.440      33    863.2x
 all implementations produced the same output
 
 thumb_hash_to_rgba, ThumbHash -> 32x32 RGBA image
 
 implementation                    median ms    min ms    runs   speedup
-fast-thumbhash-rs (this package)      0.006     0.006  146563
-thumbhash-python                      5.770     5.740     172    901.4x
+fast-thumbhash-rs                     0.006     0.005  166057          
+thumbhash-rs                          0.048     0.047   20798      8.6x
+thumbhash-python                      5.555     5.512     180   1006.2x
 all implementations produced the same output (within +-1 per channel)
 
 speedup = how much faster fast-thumbhash-rs is than that implementation (median)

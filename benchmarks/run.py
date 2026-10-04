@@ -1,8 +1,8 @@
-"""Compare fast-thumbhash-rs with the pure-Python ThumbHash packages.
+"""Compare fast-thumbhash-rs with thumbhash-rs and the pure-Python ThumbHash packages.
 
-Run with `just bench`, which builds a release wheel of this package first.
+Run with `just bench`. All implementations are installed from PyPI.
 Each implementation runs in its own isolated uv environment, because
-`thumbhash` and `thumbhash-python` both install a top-level `thumbhash` package.
+they all install a top-level `thumbhash` package.
 """
 
 import json
@@ -11,18 +11,13 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-WHEEL_DIR = ROOT / "target" / "bench-wheels"
-
-LABELS = {
-    "fast": "fast-thumbhash-rs (this package)",
-    "thumbhash": "thumbhash",
-    "thumbhash-python": "thumbhash-python",
-}
+# The first implementation is the baseline for the speedup column.
 # `thumbhash` only has an encoder.
 IMPLEMENTATIONS = {
-    "encode": ["fast", "thumbhash", "thumbhash-python"],
-    "decode": ["fast", "thumbhash-python"],
+    "encode": ["fast-thumbhash-rs", "thumbhash-rs", "thumbhash", "thumbhash-python"],
+    "decode": ["fast-thumbhash-rs", "thumbhash-rs", "thumbhash-python"],
 }
+BASELINE = "fast-thumbhash-rs"
 TITLES = {
     "encode": "rgba_to_thumb_hash, 100x100 RGBA image -> ThumbHash",
     "decode": "thumb_hash_to_rgba, ThumbHash -> 32x32 RGBA image",
@@ -31,19 +26,11 @@ TITLES = {
 DECODE_TOLERANCE = 1
 
 
-def newest_wheel():
-    wheels = sorted(WHEEL_DIR.glob("fast_thumbhash_rs-*.whl"), key=lambda p: p.stat().st_mtime)
-    if not wheels:
-        raise SystemExit(f"no wheel in {WHEEL_DIR}, run `just bench`")
-    return wheels[-1]
-
-
 def run_one(impl, op):
     print(f"running {op} / {impl} ...", file=sys.stderr, flush=True)
-    requirement = str(newest_wheel()) if impl == "fast" else impl
     cmd = [
         "uv", "run", "--no-project", "--isolated", "--quiet",
-        "--with", requirement,
+        "--with", impl,
         "python", "benchmarks/bench_one.py", impl, op,
     ]  # fmt: skip
     out = subprocess.run(cmd, cwd=ROOT, check=True, capture_output=True, text=True)
@@ -62,22 +49,25 @@ def outputs_match(op, results):
     if len(sizes) != 1:
         return f"different image sizes: {sizes}"
     pixels = [bytes.fromhex(o["rgba"]) for o in outputs.values()]
-    worst = max(abs(a - b) for a, b in zip(*pixels))
-    if len({len(p) for p in pixels}) != 1 or worst > DECODE_TOLERANCE:
+    if len({len(p) for p in pixels}) != 1:
+        return "different pixel counts"
+    first, *others = pixels
+    worst = max(abs(a - b) for other in others for a, b in zip(first, other))
+    if worst > DECODE_TOLERANCE:
         return f"pixels differ by up to {worst}"
     return None
 
 
 def report(op):
     results = {impl: run_one(impl, op) for impl in IMPLEMENTATIONS[op]}
-    fast = results["fast"]
+    fast = results[BASELINE]
 
     print(f"\n{TITLES[op]}\n")
     print(f"{'implementation':<32}{'median ms':>11}{'min ms':>10}{'runs':>8}{'speedup':>10}")
     for impl, r in results.items():
-        speedup = "" if impl == "fast" else f"{r['median_ms'] / fast['median_ms']:.1f}x"
+        speedup = "" if impl == BASELINE else f"{r['median_ms'] / fast['median_ms']:.1f}x"
         print(
-            f"{LABELS[impl]:<32}{r['median_ms']:>11.3f}{r['min_ms']:>10.3f}"
+            f"{impl:<32}{r['median_ms']:>11.3f}{r['min_ms']:>10.3f}"
             f"{r['runs']:>8}{speedup:>10}"
         )
 
