@@ -1,7 +1,7 @@
-# thumbhash-rs
+# fast-thumbhash-rs
 
 [![Test](https://github.com/fdemmer/thumbhash-rs/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/fdemmer/thumbhash-rs/actions/workflows/test.yml)
-[![PyPI](https://img.shields.io/pypi/v/thumbhash-rs.svg)](https://pypi.org/project/thumbhash-rs/)
+[![PyPI](https://img.shields.io/pypi/v/fast-thumbhash-rs.svg)](https://pypi.org/project/fast-thumbhash-rs/)
 
 A fast Python package for [ThumbHash](https://evanw.github.io/thumbhash/) image encoding/decoding using Rust bindings (PyO3, maturin) to the [`fast-thumbhash`](https://github.com/VectorPrivacy/fast-thumbhash) crate.
 
@@ -9,7 +9,10 @@ A fast Python package for [ThumbHash](https://evanw.github.io/thumbhash/) image 
 > `fast-thumbhash` output is perceptually identical to the reference ThumbHash implementation, but not guaranteed to be bit-identical: the hash bytes may differ slightly from those of other implementations.
 
 > [!NOTE]
-> This is a fork of [sitatec/fast_python_thumbhash](https://github.com/sitatec/fast_python_thumbhash) (originally named `fast_thumbhash`), renamed to `thumbhash-rs` and imported as `thumbhash`.
+> This is a fork of [sitatec/fast_python_thumbhash](https://github.com/sitatec/fast_python_thumbhash) (originally named `fast_thumbhash`), renamed to `fast-thumbhash-rs` and imported as `thumbhash`.
+
+> [!WARNING]
+> `fast-thumbhash-rs` provides the same `thumbhash` module and API as `thumbhash-rs`, so it is a drop-in replacement. The two packages install into the same directory and cannot be installed side by side: `pip uninstall thumbhash-rs` before installing this one.
 
 ## Usage Example
 
@@ -28,13 +31,13 @@ restored.save("restored.png")
 ## Installation
 
 ```sh
-pip install thumbhash-rs
+pip install fast-thumbhash-rs
 ```
 
 With Pillow support (for `image_to_thumb_hash`):
 
 ```sh
-pip install "thumbhash-rs[pillow]"
+pip install "fast-thumbhash-rs[pillow]"
 ```
 
 ## API
@@ -55,7 +58,7 @@ Compared with the pure-Python packages [`thumbhash`](https://github.com/justinfo
 rgba_to_thumb_hash, 100x100 RGBA image -> ThumbHash
 
 implementation                    median ms    min ms    runs   speedup
-thumbhash-rs (this package)           0.030     0.029   33215
+fast-thumbhash-rs (this package)      0.030     0.029   33215
 thumbhash                            29.485    28.854      34    998.6x
 thumbhash-python                     29.776    29.288      33   1008.5x
 all implementations produced the same output
@@ -63,11 +66,11 @@ all implementations produced the same output
 thumb_hash_to_rgba, ThumbHash -> 32x32 RGBA image
 
 implementation                    median ms    min ms    runs   speedup
-thumbhash-rs (this package)           0.006     0.006  146563
+fast-thumbhash-rs (this package)      0.006     0.006  146563
 thumbhash-python                      5.770     5.740     172    901.4x
 all implementations produced the same output (within +-1 per channel)
 
-speedup = how much faster thumbhash-rs is than that implementation (median)
+speedup = how much faster fast-thumbhash-rs is than that implementation (median)
 ```
 
 ## Other Python packages

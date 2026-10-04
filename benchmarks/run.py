@@ -1,4 +1,4 @@
-"""Compare thumbhash-rs with the pure-Python ThumbHash packages.
+"""Compare fast-thumbhash-rs with the pure-Python ThumbHash packages.
 
 Run with `just bench`, which builds a release wheel of this package first.
 Each implementation runs in its own isolated uv environment, because
@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WHEEL_DIR = ROOT / "target" / "bench-wheels"
 
 LABELS = {
-    "fast": "thumbhash-rs (this package)",
+    "fast": "fast-thumbhash-rs (this package)",
     "thumbhash": "thumbhash",
     "thumbhash-python": "thumbhash-python",
 }
@@ -32,7 +32,7 @@ DECODE_TOLERANCE = 1
 
 
 def newest_wheel():
-    wheels = sorted(WHEEL_DIR.glob("thumbhash_rs-*.whl"), key=lambda p: p.stat().st_mtime)
+    wheels = sorted(WHEEL_DIR.glob("fast_thumbhash_rs-*.whl"), key=lambda p: p.stat().st_mtime)
     if not wheels:
         raise SystemExit(f"no wheel in {WHEEL_DIR}, run `just bench`")
     return wheels[-1]
@@ -92,7 +92,7 @@ def report(op):
 
 def main():
     ok = [report(op) for op in IMPLEMENTATIONS]
-    print("\nspeedup = how much faster thumbhash-rs is than that implementation (median)")
+    print("\nspeedup = how much faster fast-thumbhash-rs is than that implementation (median)")
     sys.exit(0 if all(ok) else 1)
 
 

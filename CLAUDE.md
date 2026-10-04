@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-`thumbhash-rs` is a Python package (imported as `thumbhash`) with a Rust (PyO3) extension, built with maturin. It wraps the `fast-thumbhash` crate.
+`fast-thumbhash-rs` is a Python package (imported as `thumbhash`) with a Rust (PyO3) extension, built with maturin. It wraps the `fast-thumbhash` crate.
 
 ## Layout
 - `src/lib.rs`: PyO3 module with four functions: `rgba_to_thumb_hash`, `thumb_hash_to_rgba`, `thumb_hash_to_average_rgba` and `thumb_hash_to_approximate_aspect_ratio`. They take and return `bytes`. `rgba_to_thumb_hash` validates its input and raises `ValueError`.

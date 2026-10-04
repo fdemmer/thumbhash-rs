@@ -13,7 +13,7 @@ def image_to_thumb_hash(fp: str | bytes | Path) -> bytes:
     orientation before encoding.
 
     Requires Pillow, install it with the ``pillow`` extra:
-    ``pip install "thumbhash-rs[pillow]"``.
+    ``pip install "fast-thumbhash-rs[pillow]"``.
 
     :param fp: The path of the image file, or any argument accepted by
         :func:`PIL.Image.open`.
