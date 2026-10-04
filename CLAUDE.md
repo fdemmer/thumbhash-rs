@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-`thumbhash-rs` is a Python package (imported as `thumbhash`) with a Rust (PyO3) extension, built with maturin. It wraps the `thumbhash` crate.
+`thumbhash-rs` is a Python package (imported as `thumbhash`) with a Rust (PyO3) extension, built with maturin. It wraps the `fast-thumbhash` crate.
 
 ## Layout
 - `src/lib.rs`: PyO3 module with four functions: `rgba_to_thumb_hash`, `thumb_hash_to_rgba`, `thumb_hash_to_average_rgba` and `thumb_hash_to_approximate_aspect_ratio`. They take and return `bytes`. `rgba_to_thumb_hash` validates its input and raises `ValueError`.
@@ -21,7 +21,7 @@
 - `just shell`: rebuild, then open a Python shell with the package installed from source.
 - `just test`: rebuild, then run pytest.
 - `just bench`: build a release wheel and benchmark encoding (vs `thumbhash`, `thumbhash-python`) and decoding (vs `thumbhash-python`) in `benchmarks/`, each in its own uv environment because both packages import as `thumbhash`.
-- `just check`: `cargo check` and clippy. Clippy currently fails on the redundant `use thumbhash;` in `src/lib.rs`.
+- `just check`: `cargo check` and clippy.
 - `just typecheck`: pyright on `thumbhash/`.
 - `just gha-update` / `just gha-check`: update and SHA-pin the GitHub Actions versions (`gha-update`), lint the workflows with zizmor.
 - `just wheel` / `just sdist`: build distributable artifacts into `dist/`.

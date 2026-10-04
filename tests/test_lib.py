@@ -85,3 +85,21 @@ def test_rgba_to_thumb_hash_rejects_too_large_image(width, height):
 def test_rgba_to_thumb_hash_rejects_wrong_rgba_length(length):
     with pytest.raises(ValueError, match="4 = 400 bytes"):
         rgba_to_thumb_hash(10, 10, bytes(length))
+
+
+def test_gradient_roundtrip_metadata():
+    """Hash bytes are not compared exactly: the backend is only perceptually identical."""
+    width, height = 80, 40
+    rgba = bytearray()
+    for y in range(height):
+        for x in range(width):
+            rgba += bytes((x * 255 // (width - 1), y * 255 // (height - 1), 128, 255))
+
+    thash = rgba_to_thumb_hash(width, height, bytes(rgba))
+
+    assert thumb_hash_to_approximate_aspect_ratio(thash) == pytest.approx(2.0, rel=0.15)
+    r, g, b, a = thumb_hash_to_average_rgba(thash)
+    assert r == pytest.approx(0.5, abs=0.05)
+    assert g == pytest.approx(0.5, abs=0.05)
+    assert b == pytest.approx(128 / 255, abs=0.05)
+    assert a == pytest.approx(1.0, abs=0.01)

@@ -1,7 +1,6 @@
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3::types::PyBytes;
-use thumbhash;
 
 /// Largest width and height supported by ThumbHash.
 const MAX_SIZE: usize = 100;
@@ -22,7 +21,7 @@ fn py_rgba_to_thumb_hash<'py>(
     height: usize,
     rgba: &[u8],
 ) -> PyResult<Bound<'py, PyBytes>> {
-    // The thumbhash crate asserts on these, which would surface as a PanicException.
+    // The fast-thumbhash crate asserts on these, which would surface as a PanicException.
     if width > MAX_SIZE || height > MAX_SIZE {
         return Err(PyValueError::new_err(format!(
             "width and height must be at most {MAX_SIZE}, got {width}x{height}"
@@ -35,7 +34,7 @@ fn py_rgba_to_thumb_hash<'py>(
             rgba.len()
         )));
     }
-    let hash = py.detach(|| thumbhash::rgba_to_thumb_hash(width, height, rgba));
+    let hash = py.detach(|| fast_thumbhash::rgba_to_thumb_hash(width, height, rgba));
     Ok(PyBytes::new(py, &hash))
 }
 
@@ -51,11 +50,11 @@ fn py_thumb_hash_to_rgba<'py>(
     py: Python<'py>,
     hash: &[u8],
 ) -> PyResult<(usize, usize, Bound<'py, PyBytes>)> {
-    let (width, height, rgba) =
-        py.detach(|| thumbhash::thumb_hash_to_rgba(hash))
-            .map_err(|_| {
-                PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
-            })?;
+    let (width, height, rgba) = py
+        .detach(|| fast_thumbhash::thumb_hash_to_rgba(hash))
+        .map_err(|_| {
+            PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
+        })?;
     Ok((width, height, PyBytes::new(py, &rgba)))
 }
 
@@ -66,7 +65,7 @@ fn py_thumb_hash_to_rgba<'py>(
 /// :raises ValueError: If the hash is invalid or malformed.
 #[pyfunction(name = "thumb_hash_to_average_rgba")]
 fn py_thumb_hash_to_average_rgba(py: Python, hash: &[u8]) -> PyResult<(f32, f32, f32, f32)> {
-    py.detach(|| thumbhash::thumb_hash_to_average_rgba(hash))
+    py.detach(|| fast_thumbhash::thumb_hash_to_average_rgba(hash))
         .map_err(|_| {
             PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
         })
@@ -79,7 +78,7 @@ fn py_thumb_hash_to_average_rgba(py: Python, hash: &[u8]) -> PyResult<(f32, f32,
 /// :raises ValueError: If the hash is invalid or malformed.
 #[pyfunction(name = "thumb_hash_to_approximate_aspect_ratio")]
 fn py_thumb_hash_to_approximate_aspect_ratio(py: Python, hash: &[u8]) -> PyResult<f32> {
-    py.detach(|| thumbhash::thumb_hash_to_approximate_aspect_ratio(hash))
+    py.detach(|| fast_thumbhash::thumb_hash_to_approximate_aspect_ratio(hash))
         .map_err(|_| {
             PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
         })

@@ -3,7 +3,10 @@
 [![Test](https://github.com/fdemmer/thumbhash-rs/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/fdemmer/thumbhash-rs/actions/workflows/test.yml)
 [![PyPI](https://img.shields.io/pypi/v/thumbhash-rs.svg)](https://pypi.org/project/thumbhash-rs/)
 
-A fast Python package for [ThumbHash](https://evanw.github.io/thumbhash/) image encoding/decoding using Rust bindings (PyO3, maturin) to the official `thumbhash` crate.
+A fast Python package for [ThumbHash](https://evanw.github.io/thumbhash/) image encoding/decoding using Rust bindings (PyO3, maturin) to the [`fast-thumbhash`](https://github.com/VectorPrivacy/fast-thumbhash) crate.
+
+> [!NOTE]
+> `fast-thumbhash` output is perceptually identical to the reference ThumbHash implementation, but not guaranteed to be bit-identical: the hash bytes may differ slightly from those of other implementations.
 
 > [!NOTE]
 > This is a fork of [sitatec/fast_python_thumbhash](https://github.com/sitatec/fast_python_thumbhash) (originally named `fast_thumbhash`), renamed to `thumbhash-rs` and imported as `thumbhash`.
@@ -52,16 +55,16 @@ Compared with the pure-Python packages [`thumbhash`](https://github.com/justinfo
 rgba_to_thumb_hash, 100x100 RGBA image -> ThumbHash
 
 implementation                    median ms    min ms    runs   speedup
-thumbhash-rs (this package)           1.124     1.120     887
-thumbhash                            29.452    28.929      34     26.2x
-thumbhash-python                     29.764    29.182      33     26.5x
+thumbhash-rs (this package)           0.030     0.029   33215
+thumbhash                            29.485    28.854      34    998.6x
+thumbhash-python                     29.776    29.288      33   1008.5x
 all implementations produced the same output
 
 thumb_hash_to_rgba, ThumbHash -> 32x32 RGBA image
 
 implementation                    median ms    min ms    runs   speedup
-thumbhash-rs (this package)           0.049     0.048   20328
-thumbhash-python                      5.543     5.519     179    113.8x
+thumbhash-rs (this package)           0.006     0.006  146563
+thumbhash-python                      5.770     5.740     172    901.4x
 all implementations produced the same output (within +-1 per channel)
 
 speedup = how much faster thumbhash-rs is than that implementation (median)
