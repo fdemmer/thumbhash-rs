@@ -7,6 +7,8 @@ name = "fast_thumbhash"
 version = "1.0.0"
 description = "Fast ThumbHash bindings for Python using Rust (PyO3)"
 authors = [{ name = "Sita Berete" }]
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [

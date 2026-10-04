@@ -1,13 +1,35 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
 venv/
 .env
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
 
 # Rust / Maturin
-target/
-.cargo/
+/target/
+# compiled extension that `maturin develop` places in the source tree
+*.so
+*.pyd
+*.dylib
+*.pdb
 
 # Distribution
 dist/
-*.egg-info/
+build/
+wheelhouse/
+
+# Example/output images in the project root
+/*.png
+/*.jpg
+/*.jpeg
+/*.avif
+/*.webp
+
+# uv
+uv.lock
