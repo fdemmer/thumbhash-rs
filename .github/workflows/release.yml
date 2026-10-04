@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Build wheels for Python 3.10–3.12
+      # Build wheels for Python 3.8–3.14
       - name: Build wheels
         uses: pypa/cibuildwheel@v3.3.0
         with:
@@ -41,7 +41,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.14"
 
       - name: Build sdist
         run: |

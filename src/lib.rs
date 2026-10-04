@@ -35,8 +35,8 @@ fn py_rgba_to_thumb_hash<'py>(
             rgba.len()
         )));
     }
-    let hash = py.allow_threads(|| thumbhash::rgba_to_thumb_hash(width, height, rgba));
-    Ok(PyBytes::new_bound(py, &hash))
+    let hash = py.detach(|| thumbhash::rgba_to_thumb_hash(width, height, rgba));
+    Ok(PyBytes::new(py, &hash))
 }
 
 /// Decodes a ThumbHash to an RGBA image. RGB is not premultiplied by A.
@@ -51,12 +51,12 @@ fn py_thumb_hash_to_rgba<'py>(
     py: Python<'py>,
     hash: &[u8],
 ) -> PyResult<(usize, usize, Bound<'py, PyBytes>)> {
-    let (width, height, rgba) = py
-        .allow_threads(|| thumbhash::thumb_hash_to_rgba(hash))
-        .map_err(|_| {
-            PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
-        })?;
-    Ok((width, height, PyBytes::new_bound(py, &rgba)))
+    let (width, height, rgba) =
+        py.detach(|| thumbhash::thumb_hash_to_rgba(hash))
+            .map_err(|_| {
+                PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
+            })?;
+    Ok((width, height, PyBytes::new(py, &rgba)))
 }
 
 /// Extracts the average color from a ThumbHash. RGB is not premultiplied by A.
@@ -66,7 +66,7 @@ fn py_thumb_hash_to_rgba<'py>(
 /// :raises ValueError: If the hash is invalid or malformed.
 #[pyfunction(name = "thumb_hash_to_average_rgba")]
 fn py_thumb_hash_to_average_rgba(py: Python, hash: &[u8]) -> PyResult<(f32, f32, f32, f32)> {
-    py.allow_threads(|| thumbhash::thumb_hash_to_average_rgba(hash))
+    py.detach(|| thumbhash::thumb_hash_to_average_rgba(hash))
         .map_err(|_| {
             PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
         })
@@ -79,7 +79,7 @@ fn py_thumb_hash_to_average_rgba(py: Python, hash: &[u8]) -> PyResult<(f32, f32,
 /// :raises ValueError: If the hash is invalid or malformed.
 #[pyfunction(name = "thumb_hash_to_approximate_aspect_ratio")]
 fn py_thumb_hash_to_approximate_aspect_ratio(py: Python, hash: &[u8]) -> PyResult<f32> {
-    py.allow_threads(|| thumbhash::thumb_hash_to_approximate_aspect_ratio(hash))
+    py.detach(|| thumbhash::thumb_hash_to_approximate_aspect_ratio(hash))
         .map_err(|_| {
             PyErr::new::<pyo3::exceptions::PyValueError, _>("Invalid or malformed thumbhash")
         })

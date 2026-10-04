@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 from .fast_thumbhash import rgba_to_thumb_hash

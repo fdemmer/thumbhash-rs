@@ -8,8 +8,8 @@
 - `fast_thumbhash/wrappers.py`: `image_to_thumb_hash(fp)`, pure Python, needs the optional Pillow extra (imported lazily).
 - `fast_thumbhash/fast_thumbhash.pyi` and `py.typed`: hand-written type stub for the compiled module, and the PEP 561 marker.
 - `tests/test_lib.py`: pytest tests for the extension and the README example.
-- `pyproject.toml`: maturin build backend with `python-source = "."`, the cibuildwheel config (cp310–cp312, no musllinux) and the pyright config.
-- `.python-version`: Python 3.12, the newest version supported by the pinned `pyo3 0.21`.
+- `pyproject.toml`: maturin build backend with `python-source = "."`, the cibuildwheel config (cp38–cp314, no musllinux) and the pyright config.
+- `.python-version`: Python 3.14, the newest version supported by the pinned `pyo3 0.29`.
 - `.pre-commit-config.yaml`: `cargo fmt` hook, run with `prek`.
 - `LICENSE` and `THIRD_PARTY_LICENSES.md`: MIT, plus the notices for the statically linked Rust crates. Both ship in wheels.
 - `.github/workflows/release.yml`: builds wheels and an sdist, then publishes to PyPI on a release. There is no CI for push or pull requests.

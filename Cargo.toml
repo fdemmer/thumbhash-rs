@@ -13,5 +13,5 @@ name = "fast_thumbhash"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.21", features = ["extension-module"] }
+pyo3 = { version = "0.29", features = ["extension-module"] }
 thumbhash = "0.1"
