@@ -47,6 +47,14 @@ check:
     cargo check
     cargo clippy -- -D warnings
 
+# Update and pin GitHub Actions versions in .github/workflows
+gha-update:
+    uvx gha-update
+
+# Lint GitHub Actions workflows with zizmor
+gha-check args="":
+    uvx zizmor {{args}} .
+
 clean:
     cargo clean
     rm -rf dist build

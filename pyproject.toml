@@ -14,7 +14,6 @@ requires-python = ">=3.8"
 classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -34,8 +33,10 @@ pillow = ["Pillow"]
 python-source = "."
 
 [tool.cibuildwheel]
-build = "cp38-* cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
+build = "cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*"
 skip = "*-musllinux_*"
+test-requires = ["pytest", "pillow"]
+test-command = "pytest {project}/tests"
 
 [tool.pyright]
 include = ["fast_thumbhash"]

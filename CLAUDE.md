@@ -8,11 +8,12 @@
 - `fast_thumbhash/wrappers.py`: `image_to_thumb_hash(fp)`, pure Python, needs the optional Pillow extra (imported lazily).
 - `fast_thumbhash/fast_thumbhash.pyi` and `py.typed`: hand-written type stub for the compiled module, and the PEP 561 marker.
 - `tests/test_lib.py`: pytest tests for the extension and the README example.
-- `pyproject.toml`: maturin build backend with `python-source = "."`, the cibuildwheel config (cp38–cp314, no musllinux) and the pyright config.
+- `pyproject.toml`: maturin build backend with `python-source = "."`, the cibuildwheel config (cp39–cp314, no musllinux; wheels are tested with pytest) and the pyright config.
 - `.python-version`: Python 3.14, the newest version supported by the pinned `pyo3 0.29`.
 - `.pre-commit-config.yaml`: `cargo fmt` hook, run with `prek`.
 - `LICENSE` and `THIRD_PARTY_LICENSES.md`: MIT, plus the notices for the statically linked Rust crates. Both ship in wheels.
-- `.github/workflows/release.yml`: builds wheels and an sdist, then publishes to PyPI on a release. There is no CI for push or pull requests.
+- `.github/workflows/test.yml`: on pull requests, pushes to `main` and as a reusable workflow: pytest on Linux/macOS/Windows with Python 3.9–3.14, plus `cargo fmt --check` and pyright.
+- `.github/workflows/release.yml`: on a release, runs `test.yml` first, then builds wheels (cibuildwheel) and an sdist, then publishes to PyPI. Actions are pinned to commit SHAs.
 
 ## Commands (see `Justfile`)
 - `just setup`: recreate `.venv/` with uv and install maturin, pytest, pillow and pyright.
@@ -22,6 +23,7 @@
 - `just bench`: build a release wheel and benchmark encoding (vs `thumbhash`, `thumbhash-python`) and decoding (vs `thumbhash-python`) in `benchmarks/`, each in its own uv environment because both packages import as `thumbhash`.
 - `just check`: `cargo check` and clippy. Clippy currently fails on the redundant `use thumbhash;` in `src/lib.rs`.
 - `just typecheck`: pyright on `fast_thumbhash/`.
+- `just gha-update` / `just gha-check`: update and SHA-pin the GitHub Actions versions (`gha-update`), lint the workflows with zizmor.
 - `just wheel` / `just sdist`: build distributable artifacts into `dist/`.
 
 ## Conventions
