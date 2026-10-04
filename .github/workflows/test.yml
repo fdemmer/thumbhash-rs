@@ -30,6 +30,8 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - uses: dtolnay/rust-toolchain@7e38f4b43b4db5c8dd498af069a4f6196df1d067 # v1
+        with:
+          toolchain: stable
 
       - name: Install dependencies
         run: uv venv && uv pip install maturin pytest pillow
@@ -53,6 +55,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@7e38f4b43b4db5c8dd498af069a4f6196df1d067 # v1
         with:
+          toolchain: stable
           components: rustfmt
 
       - name: Check Rust formatting
