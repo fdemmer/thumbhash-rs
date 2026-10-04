@@ -14,6 +14,7 @@
 - `just build` / `just build-release`: `maturin develop` into the venv.
 - `just test`: rebuild, then run pytest. The repo has no tests yet.
 - `just check`: `cargo check` and clippy.
+- `just typecheck`: pyright on `fast_thumbhash/`.
 - `just wheel` / `just sdist`: build distributable artifacts into `dist/`.
 
 ## Notes

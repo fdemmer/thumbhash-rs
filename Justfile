@@ -6,7 +6,7 @@ default:
 # Create venv and install dev tools
 setup:
     uv venv --clear
-    uv pip install maturin pytest pillow
+    uv pip install maturin pytest pillow pyright
 
 # Build the extension and install it into the venv (debug)
 build:
@@ -27,6 +27,10 @@ sdist:
 # Run Python tests (rebuilds first)
 test *args: build
     uv run --no-project pytest {{args}}
+
+# Type-check the Python package
+typecheck:
+    uv run --no-project pyright fast_thumbhash
 
 # Rust checks
 check:

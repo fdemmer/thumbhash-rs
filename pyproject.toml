@@ -26,3 +26,7 @@ python-source = "."
 [tool.cibuildwheel]
 build = "cp310-* cp311-* cp312-*"
 skip = "*-musllinux_*"
+
+[tool.pyright]
+include = ["fast_thumbhash"]
+pythonVersion = "3.12"

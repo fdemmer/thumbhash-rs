@@ -1,11 +1,5 @@
 from pathlib import Path
 
-try:
-    from PIL import Image, ImageOps
-    _HAS_PIL = True
-except ImportError:
-    _HAS_PIL = False
-
 from .fast_thumbhash import rgba_to_thumb_hash
 
 
@@ -14,8 +8,12 @@ def image_to_thumb_hash(fp: str | bytes | Path) -> bytes:
     Opens given image file and encodes to a ThumbHash.
     Requires Pillow to be installed.
     """
-    if not _HAS_PIL:
-        raise ImportError("Pillow not installed, please re-install with the [pillow] extra")
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        raise ImportError(
+            "Pillow not installed, please re-install with the [pillow] extra"
+        ) from None
 
     img = Image.open(fp)
     img = img.convert("RGBA")
