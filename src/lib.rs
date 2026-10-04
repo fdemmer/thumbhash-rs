@@ -6,6 +6,15 @@ use thumbhash;
 /// Largest width and height supported by ThumbHash.
 const MAX_SIZE: usize = 100;
 
+/// Encodes an RGBA image to a ThumbHash. RGB should not be premultiplied by A.
+///
+/// :param width: The width of the input image. Must be at most 100 pixels.
+/// :param height: The height of the input image. Must be at most 100 pixels.
+/// :param rgba: The pixels of the input image, row by row, with 4 bytes (R, G, B, A)
+///     per pixel. Must be exactly ``width * height * 4`` bytes long.
+/// :returns: The ThumbHash.
+/// :raises ValueError: If ``width`` or ``height`` is larger than 100, or ``rgba``
+///     has the wrong length.
 #[pyfunction(name = "rgba_to_thumb_hash")]
 fn py_rgba_to_thumb_hash<'py>(
     py: Python<'py>,
@@ -30,6 +39,13 @@ fn py_rgba_to_thumb_hash<'py>(
     Ok(PyBytes::new_bound(py, &hash))
 }
 
+/// Decodes a ThumbHash to an RGBA image. RGB is not premultiplied by A.
+///
+/// :param hash: The bytes of the ThumbHash.
+/// :returns: The width, height, and pixels of the rendered placeholder image, as
+///     ``(width, height, rgba)``. The pixels are row by row, with 4 bytes
+///     (R, G, B, A) per pixel.
+/// :raises ValueError: If the hash is invalid or malformed.
 #[pyfunction(name = "thumb_hash_to_rgba")]
 fn py_thumb_hash_to_rgba<'py>(
     py: Python<'py>,
@@ -43,6 +59,11 @@ fn py_thumb_hash_to_rgba<'py>(
     Ok((width, height, PyBytes::new_bound(py, &rgba)))
 }
 
+/// Extracts the average color from a ThumbHash. RGB is not premultiplied by A.
+///
+/// :param hash: The bytes of the ThumbHash.
+/// :returns: The average color as ``(r, g, b, a)``. Each value ranges from 0 to 1.
+/// :raises ValueError: If the hash is invalid or malformed.
 #[pyfunction(name = "thumb_hash_to_average_rgba")]
 fn py_thumb_hash_to_average_rgba(py: Python, hash: &[u8]) -> PyResult<(f32, f32, f32, f32)> {
     py.allow_threads(|| thumbhash::thumb_hash_to_average_rgba(hash))
@@ -51,6 +72,11 @@ fn py_thumb_hash_to_average_rgba(py: Python, hash: &[u8]) -> PyResult<(f32, f32,
         })
 }
 
+/// Extracts the approximate aspect ratio of the original image.
+///
+/// :param hash: The bytes of the ThumbHash.
+/// :returns: The approximate aspect ratio (i.e. width / height).
+/// :raises ValueError: If the hash is invalid or malformed.
 #[pyfunction(name = "thumb_hash_to_approximate_aspect_ratio")]
 fn py_thumb_hash_to_approximate_aspect_ratio(py: Python, hash: &[u8]) -> PyResult<f32> {
     py.allow_threads(|| thumbhash::thumb_hash_to_approximate_aspect_ratio(hash))
@@ -59,6 +85,9 @@ fn py_thumb_hash_to_approximate_aspect_ratio(py: Python, hash: &[u8]) -> PyResul
         })
 }
 
+/// Fast ThumbHash encoding and decoding, implemented in Rust.
+///
+/// See https://evanw.github.io/thumbhash/ for details on the ThumbHash format.
 #[pymodule]
 fn fast_thumbhash(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_rgba_to_thumb_hash, m)?)?;

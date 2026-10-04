@@ -1,3 +1,8 @@
+"""Fast ThumbHash encoding and decoding, implemented in Rust.
+
+See https://evanw.github.io/thumbhash/ for details on the ThumbHash format.
+"""
+
 from .wrappers import image_to_thumb_hash
 
 from .fast_thumbhash import (

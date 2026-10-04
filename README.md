@@ -45,6 +45,15 @@ restored = Image.frombytes("RGBA", (width, height), rgba)
 restored.save("restored.png")
 ```
 
+## API
+Each function has a docstring (`help(fast_thumbhash.rgba_to_thumb_hash)`), also available as editor hints through the bundled type stubs.
+
+- `rgba_to_thumb_hash(width, height, rgba)`: encode raw RGBA pixels (at most 100x100) to a ThumbHash (`bytes`).
+- `thumb_hash_to_rgba(hash)`: decode a ThumbHash to `(width, height, rgba)`.
+- `thumb_hash_to_average_rgba(hash)`: the average color as `(r, g, b, a)`, each from 0 to 1.
+- `thumb_hash_to_approximate_aspect_ratio(hash)`: the approximate width / height of the original image.
+- `image_to_thumb_hash(fp)`: open an image file with Pillow and encode it (requires the `[pillow]` extra).
+
 ## Other Python packages
 Pure-Python implementations of ThumbHash:
 - [`thumbhash`](https://github.com/justinforlenza/thumbhash-py) ([PyPI](https://pypi.org/project/thumbhash/))
