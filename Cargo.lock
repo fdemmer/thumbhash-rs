@@ -126,7 +126,7 @@ checksum = "8b7726e0245a7331bd0c9a1fb4fd99fd695bcd478ca569f0eda2ff2cb14e7a00"
 
 [[package]]
 name = "thumbhash_rs"
-version = "0.1.0-alpha.1"
+version = "0.1.0"
 dependencies = [
  "pyo3",
  "thumbhash",

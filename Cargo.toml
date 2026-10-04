@@ -1,6 +1,6 @@
 [package]
 name = "thumbhash_rs"
-version = "0.1.0-alpha.1"
+version = "0.1.0"
 edition = "2024"
 description = "Fast ThumbHash bindings for Python using Rust (PyO3)"
 documentation = "https://github.com/fdemmer/thumbhash-rs#readme"
