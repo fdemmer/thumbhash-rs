@@ -24,6 +24,10 @@ wheel:
 sdist:
     uv run --no-project maturin sdist --out dist
 
+# Python shell with the package built from source and installed
+shell: build
+    uv run --no-project python
+
 # Run Python tests (rebuilds first)
 test *args: build
     uv run --no-project pytest {{args}}
