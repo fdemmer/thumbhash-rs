@@ -2,6 +2,10 @@
 name = "fast_thumbhash"
 version = "0.1.0"
 edition = "2021"
+description = "Fast ThumbHash bindings for Python using Rust (PyO3)"
+documentation = "https://github.com/fdemmer/python_thumbhash#readme"
+homepage = "https://github.com/fdemmer/python_thumbhash"
+repository = "https://github.com/fdemmer/python_thumbhash"
 license = "MIT"
 
 [lib]
